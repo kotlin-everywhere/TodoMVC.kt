@@ -58,6 +58,10 @@ data class State(internal val todoList: Array<Todo>, val todoListFilter: TodoLis
             Manager.addTodo(Todo(Todo.nextSequence(), text, TodoState.ACTIVE, false))
         }
     }
+
+    fun removeCompleteTodo() {
+        todoList.filter { it.state == TodoState.COMPLETE }.forEach { Manager.deleteTodo(it) }
+    }
 }
 
 

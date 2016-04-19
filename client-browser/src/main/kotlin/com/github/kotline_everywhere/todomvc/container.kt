@@ -63,7 +63,7 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
 
 
                 if (state.state.completeTodoList.isNotEmpty()) {
-                    +"button"(attr { className = "clear-completed" }) { +"Clear completed" }
+                    +"button"(attr { className = "clear-completed"; onClick = { state.state.removeCompleteTodo() } }) { +"Clear completed" }
                 }
             }
         }
