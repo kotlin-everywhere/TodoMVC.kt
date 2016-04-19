@@ -6,6 +6,8 @@ import com.github.kotlin_everywhere.react.ReactElement
 import com.github.kotline_everywhere.todomvc.state.Manager
 import com.github.kotline_everywhere.todomvc.state.State
 import com.github.kotline_everywhere.todomvc.state.TodoListFilter
+import org.w3c.dom.HTMLInputElement
+import org.w3c.dom.events.KeyboardEvent
 
 interface AppState {
     val state: State
@@ -32,10 +34,7 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
 
     override fun render(): ReactElement? {
         return "section"(attr { className = "todoapp" }) {
-            +"header"(attr { className = "header" }) {
-                +"h1" { +"todos" }
-                +"input"(attr { className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?"; asDynamic()["autoFocus"] = true })
-            }
+            +TodoHeader(TodoHeaderProps(state = state.state))
 
             +"section"(attr { className = "main" }) {
                 +"input"(attr { className = "toggle-all"; asDynamic()["type"] = "checkbox" })
@@ -76,3 +75,21 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
 }
 
 
+data class TodoHeaderProps(val state: State)
+
+val TodoHeader = stateless { props: TodoHeaderProps ->
+    "header"(attr { className = "header" }) {
+        +"h1" { +"todos" }
+        +"input"(attr {
+            className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?";
+            asDynamic()["autoFocus"] = true;
+            asDynamic()["onKeyDown"] = { e: KeyboardEvent ->
+                if (e.keyCode == 13) {
+                    val element = e.target as HTMLInputElement
+                    props.state.addTodo(element.value)
+                    element.value = ""
+                }
+            }
+        })
+    }
+}

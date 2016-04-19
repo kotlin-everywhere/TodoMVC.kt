@@ -52,6 +52,12 @@ data class State(internal val todoList: Array<Todo>, val todoListFilter: TodoLis
     fun setTotoListFilter(todoListFilter: TodoListFilter) {
         Manager.setTodoListFilter(todoListFilter)
     }
+
+    fun addTodo(text: String) {
+        if (text.isNotBlank()) {
+            Manager.addTodo(Todo(Todo.nextSequence(), text, TodoState.ACTIVE, false))
+        }
+    }
 }
 
 
