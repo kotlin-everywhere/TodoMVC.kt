@@ -1,0 +1,26 @@
+buildscript {
+    ext.kotlin_version = '1.0.1-2'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+compileKotlin2Js.kotlinOptions.outputFile = "$buildDir/js/todomvc.kt_main.js"
+compileKotlin2Js.kotlinOptions.sourceMap = true
+
+repositories {
+    mavenCentral()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
+    compile 'com.github.kotlin-everywhere:JavaScript.kt:b1fffdcf06'
+    compile 'com.github.kotlin-everywhere:react.kt:baba6b75f4'
+}

@@ -1,0 +1,9 @@
+#gradle
+build/
+.gradle/
+
+#node
+node_modules/
+
+#Intellij
+.idea/
