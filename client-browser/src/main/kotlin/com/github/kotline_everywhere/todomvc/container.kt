@@ -37,7 +37,11 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
             +TodoHeader(TodoHeaderProps(state = state.state))
 
             +"section"(attr { className = "main" }) {
-                +"input"(attr { className = "toggle-all"; asDynamic()["type"] = "checkbox" })
+                +"input"(attr {
+                    className = "toggle-all"; asDynamic()["type"] = "checkbox";
+                    asDynamic()["checked"] = state.state.todoList.isNotEmpty() && state.state.activeTodoList.isEmpty()
+                    asDynamic()["onChange"] = { state.state.completeAllTodo() }
+                })
                 +TodoList(TodoListProps(state.state.filteredTodoList))
             }
             +"footer"(attr { className = "footer" }) {

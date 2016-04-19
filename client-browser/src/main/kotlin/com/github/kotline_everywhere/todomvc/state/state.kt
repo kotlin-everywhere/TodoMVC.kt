@@ -62,6 +62,10 @@ data class State(internal val todoList: Array<Todo>, val todoListFilter: TodoLis
     fun removeCompleteTodo() {
         todoList.filter { it.state == TodoState.COMPLETE }.forEach { Manager.deleteTodo(it) }
     }
+
+    fun completeAllTodo() {
+        todoList.filter { it.state == TodoState.ACTIVE }.forEach { it.setState(TodoState.COMPLETE) }
+    }
 }
 
 
