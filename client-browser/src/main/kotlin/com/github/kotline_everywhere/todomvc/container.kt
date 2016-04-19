@@ -34,7 +34,7 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
         return "section"(attr { className = "todoapp" }) {
             +"header"(attr { className = "header" }) {
                 +"h1" { +"todos" }
-                +"input"(attr { className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?"; asDynamic()["autofocus"] = true })
+                +"input"(attr { className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?"; asDynamic()["autoFocus"] = true })
             }
 
             +"section"(attr { className = "main" }) {
