@@ -3,16 +3,14 @@ package com.github.kotline_everywhere.todomvc
 import com.github.kotlin_everywhere.react.*
 import com.github.kotlin_everywhere.react.Component
 import com.github.kotlin_everywhere.react.ReactElement
+import com.github.kotlin_everywhere.react.SyntheticKeyboardEvent
 import com.github.kotline_everywhere.todomvc.state.Manager
 import com.github.kotline_everywhere.todomvc.state.State
 import com.github.kotline_everywhere.todomvc.state.TodoListFilter
 import org.w3c.dom.HTMLInputElement
-import org.w3c.dom.events.KeyboardEvent
 
 interface AppState {
     val state: State
-
-
 }
 
 fun AppState(state: State): AppState {
@@ -33,42 +31,42 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
     }
 
     override fun render(): ReactElement? {
-        return "section"(attr { className = "todoapp" }) {
+        return Section({ className = "todoapp" }) {
             +TodoHeader(TodoHeaderProps(state = state.state))
 
             if (state.state.todoList.isNotEmpty()) {
-                +"section"(attr { className = "main" }) {
-                    +"input"(attr {
-                        className = "toggle-all"; asDynamic()["type"] = "checkbox";
-                        asDynamic()["checked"] = state.state.todoList.isNotEmpty() && state.state.activeTodoList.isEmpty()
-                        asDynamic()["onChange"] = { state.state.completeAllTodo() }
+                section({ className = "main" }) {
+                    input({
+                        className = "toggle-all"; type = "checkbox";
+                        checked = state.state.todoList.isNotEmpty() && state.state.activeTodoList.isEmpty()
+                        onChange = { state.state.completeAllTodo() }
                     })
                     +TodoList(TodoListProps(state.state.filteredTodoList))
                 }
-                +"footer"(attr { className = "footer" }) {
-                    +"span"(attr { className = "todo-count" }) {
-                        +"strong"{ +"${state.state.activeTodoList.size}" }
+                footer({ className = "footer" }) {
+                    span({ className = "todo-count" }) {
+                        strong { +"${state.state.activeTodoList.size}" }
                         +" item left"
                     }
 
-                    +"ul"(attr { className = "filters" }) {
-                        +"li" {
+                    ul({ className = "filters" }) {
+                        li {
                             val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ALL)))
-                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ALL) } }) { +"All" }
+                            a({ this.className = className; href = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ALL) } }) { +"All" }
                         }
-                        +"li" {
+                        li {
                             val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ACTIVE)))
-                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
+                            a({ this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
                         }
-                        +"li" {
+                        li {
                             val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.COMPLETE)))
-                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
+                            a({ this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
                         }
                     }
 
 
                     if (state.state.completeTodoList.isNotEmpty()) {
-                        +"button"(attr { className = "clear-completed"; onClick = { state.state.removeCompleteTodo() } }) { +"Clear completed" }
+                        button({ className = "clear-completed"; onClick = { state.state.removeCompleteTodo() } }) { +"Clear completed" }
                     }
                 }
             }
@@ -84,12 +82,11 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
 data class TodoHeaderProps(val state: State)
 
 val TodoHeader = stateless { props: TodoHeaderProps ->
-    "header"(attr { className = "header" }) {
-        +"h1" { +"todos" }
-        +"input"(attr {
-            className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?";
-            asDynamic()["autoFocus"] = true;
-            asDynamic()["onKeyDown"] = { e: KeyboardEvent ->
+    Header({ className = "header" }) {
+        h1 { +"todos" }
+        input({
+            className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?"; autoFocus = true;
+            onKeyDown = { e: SyntheticKeyboardEvent ->
                 if (e.keyCode == 13) {
                     val element = e.target as HTMLInputElement
                     props.state.addTodo(element.value)
