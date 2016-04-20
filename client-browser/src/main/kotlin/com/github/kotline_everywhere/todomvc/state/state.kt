@@ -73,6 +73,7 @@ object Manager {
     var state = State(arrayOf(), TodoListFilter.ALL)
         private set(value) {
             field = value
+            console.info(value)
             receivers.forEach { it() }
         }
 

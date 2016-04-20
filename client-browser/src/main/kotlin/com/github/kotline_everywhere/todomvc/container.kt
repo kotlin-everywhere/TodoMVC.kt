@@ -36,38 +36,40 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
         return "section"(attr { className = "todoapp" }) {
             +TodoHeader(TodoHeaderProps(state = state.state))
 
-            +"section"(attr { className = "main" }) {
-                +"input"(attr {
-                    className = "toggle-all"; asDynamic()["type"] = "checkbox";
-                    asDynamic()["checked"] = state.state.todoList.isNotEmpty() && state.state.activeTodoList.isEmpty()
-                    asDynamic()["onChange"] = { state.state.completeAllTodo() }
-                })
-                +TodoList(TodoListProps(state.state.filteredTodoList))
-            }
-            +"footer"(attr { className = "footer" }) {
-                +"span"(attr { className = "todo-count" }) {
-                    +"strong"{ +"${state.state.activeTodoList.size}" }
-                    +" item left"
+            if (state.state.todoList.isNotEmpty()) {
+                +"section"(attr { className = "main" }) {
+                    +"input"(attr {
+                        className = "toggle-all"; asDynamic()["type"] = "checkbox";
+                        asDynamic()["checked"] = state.state.todoList.isNotEmpty() && state.state.activeTodoList.isEmpty()
+                        asDynamic()["onChange"] = { state.state.completeAllTodo() }
+                    })
+                    +TodoList(TodoListProps(state.state.filteredTodoList))
                 }
-
-                +"ul"(attr { className = "filters" }) {
-                    +"li" {
-                        val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ALL)))
-                        +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ALL) } }) { +"All" }
+                +"footer"(attr { className = "footer" }) {
+                    +"span"(attr { className = "todo-count" }) {
+                        +"strong"{ +"${state.state.activeTodoList.size}" }
+                        +" item left"
                     }
-                    +"li" {
-                        val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ACTIVE)))
-                        +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
+
+                    +"ul"(attr { className = "filters" }) {
+                        +"li" {
+                            val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ALL)))
+                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ALL) } }) { +"All" }
+                        }
+                        +"li" {
+                            val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ACTIVE)))
+                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
+                        }
+                        +"li" {
+                            val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.COMPLETE)))
+                            +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
+                        }
                     }
-                    +"li" {
-                        val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.COMPLETE)))
-                        +"a"(attr { this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
-                    }
-                }
 
 
-                if (state.state.completeTodoList.isNotEmpty()) {
-                    +"button"(attr { className = "clear-completed"; onClick = { state.state.removeCompleteTodo() } }) { +"Clear completed" }
+                    if (state.state.completeTodoList.isNotEmpty()) {
+                        +"button"(attr { className = "clear-completed"; onClick = { state.state.removeCompleteTodo() } }) { +"Clear completed" }
+                    }
                 }
             }
         }
