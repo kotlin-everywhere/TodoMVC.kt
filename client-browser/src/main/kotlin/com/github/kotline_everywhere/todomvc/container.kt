@@ -4,6 +4,7 @@ import com.github.kotlin_everywhere.react.*
 import com.github.kotlin_everywhere.react.Component
 import com.github.kotlin_everywhere.react.ReactElement
 import com.github.kotlin_everywhere.react.SyntheticKeyboardEvent
+import com.github.kotlin_everywhere.react.stateless
 import com.github.kotline_everywhere.todomvc.state.Manager
 import com.github.kotline_everywhere.todomvc.state.State
 import com.github.kotline_everywhere.todomvc.state.TodoListFilter
@@ -56,11 +57,11 @@ class App(props: Any?) : Component<Any?, AppState>(props) {
                         }
                         li {
                             val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.ACTIVE)))
-                            a({ this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
+                            a({ this.className = className; href = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
                         }
                         li {
                             val className = classNames(mapOf("selected" to (state.state.todoListFilter == TodoListFilter.COMPLETE)))
-                            a({ this.className = className; asDynamic()["href"] = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
+                            a({ this.className = className; href = "#"; onClick = { state.state.setTotoListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
                         }
                     }
 
@@ -85,7 +86,7 @@ val TodoHeader = stateless { props: TodoHeaderProps ->
     Header({ className = "header" }) {
         h1 { +"todos" }
         input({
-            className = "new-todo"; asDynamic()["placeholder"] = "What needs to be done?"; autoFocus = true;
+            className = "new-todo"; placeholder = "What needs to be done?"; autoFocus = true;
             onKeyDown = { e: SyntheticKeyboardEvent ->
                 if (e.keyCode == 13) {
                     val element = e.target as HTMLInputElement

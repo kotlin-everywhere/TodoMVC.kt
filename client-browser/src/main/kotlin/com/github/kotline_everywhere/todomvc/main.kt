@@ -8,9 +8,10 @@ import kotlin.browser.document
 
 
 fun main(args: Array<String>) {
-    val reactElement = App.factory(null)
-    ReactDOM.render(reactElement, document.getElementById("app")!!)
     Manager.addTodo(Todo(Todo.nextSequence(), "Taste JavaScript", TodoState.COMPLETE, editing = false))
     Manager.addTodo(Todo(Todo.nextSequence(), "Buy a unicorn", TodoState.ACTIVE, editing = false))
+
+    val reactElement = App.factory(null)
+    ReactDOM.render(reactElement, document.getElementById("app")!!)
 }
 

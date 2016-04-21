@@ -22,5 +22,5 @@ repositories {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-js-library:$kotlin_version"
     compile 'com.github.kotlin-everywhere:JavaScript.kt:b1fffdcf06'
-    compile 'com.github.kotlin-everywhere:react.kt:c61d7373f0'
+    compile 'com.github.kotlin-everywhere:react.kt:e3b882c5fc'
 }
