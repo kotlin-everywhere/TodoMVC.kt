@@ -1,4 +1,4 @@
-package com.github.kotline_everywhere.todomvc
+package com.github.kotlin_everywhere.todomvc
 
 import com.github.kotlin_everywhere.react.ReactDOM
 import kotlin.browser.document

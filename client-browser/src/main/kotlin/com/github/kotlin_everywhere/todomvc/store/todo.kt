@@ -1,4 +1,4 @@
-package com.github.kotline_everywhere.todomvc.store
+package com.github.kotlin_everywhere.todomvc.store
 
 data class Todos(val list: List<Todo>, val listFilter: TodoListFilter) {
     val activeList by lazy { filterList(TodoState.ACTIVE) }

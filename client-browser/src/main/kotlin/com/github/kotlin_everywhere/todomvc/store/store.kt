@@ -1,4 +1,4 @@
-package com.github.kotline_everywhere.todomvc.store
+package com.github.kotlin_everywhere.todomvc.store
 
 import com.github.kotlin_everywhere.react.Store
 

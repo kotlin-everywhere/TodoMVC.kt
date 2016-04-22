@@ -1,11 +1,11 @@
-package com.github.kotline_everywhere.todomvc
+package com.github.kotlin_everywhere.todomvc
 import com.github.kotlin_everywhere.react.Section
 import com.github.kotlin_everywhere.react.SyntheticKeyboardEvent
 import com.github.kotlin_everywhere.react.classNames
 import com.github.kotlin_everywhere.react.stateless
-import com.github.kotline_everywhere.todomvc.store.TodoListFilter
-import com.github.kotline_everywhere.todomvc.store.TodoState
-import com.github.kotline_everywhere.todomvc.store.store
+import com.github.kotlin_everywhere.todomvc.store.TodoListFilter
+import com.github.kotlin_everywhere.todomvc.store.TodoState
+import com.github.kotlin_everywhere.todomvc.store.store
 import org.w3c.dom.HTMLInputElement
 
 val TodosApp = stateless(store) { state ->
