@@ -11,54 +11,60 @@ data class Todos(val list: List<Todo>, val listFilter: TodoListFilter) {
         }
     }
 
-    fun addTodo(text: String) {
-        if (text.isBlank()) {
-            return
-        }
-        setList(list + Todo(Todo.nextSequence(), text, TodoState.ACTIVE, false))
-    }
-
-    fun completeAllTodos() {
-        setList(list.map { it.copy(state = TodoState.COMPLETE) })
-    }
-
-    fun setTodoState(todo: Todo, state: TodoState) {
-        setTodo(todo) { copy(state = state) }
-    }
-
-    fun setTodoEditing(todo: Todo, editing: Boolean) {
-        setTodo(todo) { copy(editing = editing) }
-    }
-
-    fun deleteTodo(todo: Todo) {
-        setList(list.filter { it !== todo })
-    }
-
-    fun setTodoText(todo: Todo, text: String) {
-        setTodo(todo) { copy(text = text) }
-    }
-
-    private fun setTodo(todo: Todo, body: Todo.() -> Todo) {
-        setList(list.map {
-            when (it) {
-                todo -> todo.body()
-                else -> it
-            }
-        })
-    }
-
-    private fun setList(list: List<Todo>) {
-        store.setTodos(copy(list = list))
-    }
-
     private fun filterList(state: TodoState) = list.filter { it.state == state }
 
-    fun setListFilter(listFilter: TodoListFilter) {
-        store.setTodos(copy(listFilter = listFilter))
-    }
+    companion object {
+        private val todos: Todos
+            get() = store.state.todos
 
-    fun deleteAllCompleteTodos() {
-        setList(list.filter { it.state != TodoState.COMPLETE })
+        fun addTodo(text: String) {
+            if (text.isBlank()) {
+                return
+            }
+            setList(todos.list + Todo(Todo.nextSequence(), text, TodoState.ACTIVE, false))
+        }
+
+        private fun setList(list: List<Todo>) {
+            store.setTodos(todos.copy(list = list))
+        }
+
+        private fun setTodo(todo: Todo, body: Todo.() -> Todo) {
+            setList(todos.list.map {
+                when (it) {
+                    todo -> todo.body()
+                    else -> it
+                }
+            })
+        }
+
+        fun completeAllTodos() {
+            setList(todos.list.map { it.copy(state = TodoState.COMPLETE) })
+        }
+
+        fun setTodoState(todo: Todo, state: TodoState) {
+            setTodo(todo) { copy(state = state) }
+        }
+
+        fun setTodoEditing(todo: Todo, editing: Boolean) {
+            setTodo(todo) { copy(editing = editing) }
+        }
+
+        fun deleteTodo(todo: Todo) {
+            setList(todos.list.filter { it !== todo })
+        }
+
+        fun setTodoText(todo: Todo, text: String) {
+            setTodo(todo) { copy(text = text) }
+        }
+
+
+        fun setListFilter(listFilter: TodoListFilter) {
+            store.setTodos(todos.copy(listFilter = listFilter))
+        }
+
+        fun deleteAllCompleteTodos() {
+            setList(todos.list.filter { it.state != TodoState.COMPLETE })
+        }
     }
 }
 

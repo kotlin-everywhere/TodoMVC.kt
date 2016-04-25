@@ -1,10 +1,12 @@
 package com.github.kotlin_everywhere.todomvc
+
 import com.github.kotlin_everywhere.react.Section
 import com.github.kotlin_everywhere.react.SyntheticKeyboardEvent
 import com.github.kotlin_everywhere.react.classNames
 import com.github.kotlin_everywhere.react.stateless
 import com.github.kotlin_everywhere.todomvc.store.TodoListFilter
 import com.github.kotlin_everywhere.todomvc.store.TodoState
+import com.github.kotlin_everywhere.todomvc.store.Todos
 import com.github.kotlin_everywhere.todomvc.store.store
 import org.w3c.dom.HTMLInputElement
 
@@ -19,7 +21,7 @@ val TodosApp = stateless(store) { state ->
                 onKeyDown = { e: SyntheticKeyboardEvent ->
                     if (e.keyCode == 13) {
                         val element = e.target as HTMLInputElement
-                        todos.addTodo(element.value)
+                        Todos.addTodo(element.value)
                         element.value = ""
                     }
                 }
@@ -31,7 +33,7 @@ val TodosApp = stateless(store) { state ->
                 input({
                     className = "toggle-all"; type = "checkbox";
                     checked = todos.list.isNotEmpty() && todos.activeList.isEmpty()
-                    onChange = { todos.completeAllTodos() }
+                    onChange = { Todos.completeAllTodos() }
                 })
                 ul({ className = "todo-list" }) {
                     +todos.filteredList.map { todo ->
@@ -44,21 +46,21 @@ val TodosApp = stateless(store) { state ->
                                     className = "toggle"; type = "checkbox";
                                     checked = todo.state == TodoState.COMPLETE
                                     onChange = { e ->
-                                        todos.setTodoState(
+                                        Todos.setTodoState(
                                                 todo,
                                                 if ((e.target as HTMLInputElement).checked) TodoState.COMPLETE else TodoState.ACTIVE
                                         )
                                     }
                                 })
-                                label({ onDoubleClick = { todos.setTodoEditing(todo, true) } }) { +todo.text }
-                                button({ className = "destroy"; onClick = { todos.deleteTodo(todo) } })
+                                label({ onDoubleClick = { Todos.setTodoEditing(todo, true) } }) { +todo.text }
+                                button({ className = "destroy"; onClick = { Todos.deleteTodo(todo) } })
                             }
                             input({
                                 className = "edit"; value = todo.text;
-                                onChange = { todos.setTodoText(todo, (it.target as HTMLInputElement).value) }
+                                onChange = { Todos.setTodoText(todo, (it.target as HTMLInputElement).value) }
                                 onKeyDown = {
                                     if (it.keyCode == 13) {
-                                        todos.setTodoEditing(todo, false)
+                                        Todos.setTodoEditing(todo, false)
                                     }
                                 }
                             })
@@ -75,21 +77,21 @@ val TodosApp = stateless(store) { state ->
                 ul({ className = "filters" }) {
                     li {
                         val className = classNames("selected" to (todos.listFilter == TodoListFilter.ALL))
-                        a({ this.className = className; href = "#"; onClick = { todos.setListFilter(TodoListFilter.ALL) } }) { +"All" }
+                        a({ this.className = className; href = "#"; onClick = { Todos.setListFilter(TodoListFilter.ALL) } }) { +"All" }
                     }
                     li {
                         val className = classNames("selected" to (todos.listFilter == TodoListFilter.ACTIVE))
-                        a({ this.className = className; href = "#"; onClick = { todos.setListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
+                        a({ this.className = className; href = "#"; onClick = { Todos.setListFilter(TodoListFilter.ACTIVE) } }) { +"Active" }
                     }
                     li {
                         val className = classNames("selected" to (todos.listFilter == TodoListFilter.COMPLETE))
-                        a({ this.className = className; href = "#"; onClick = { todos.setListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
+                        a({ this.className = className; href = "#"; onClick = { Todos.setListFilter(TodoListFilter.COMPLETE) } }) { +"Completed" }
                     }
                 }
 
 
                 if (todos.completeList.isNotEmpty()) {
-                    button({ className = "clear-completed"; onClick = { todos.deleteAllCompleteTodos() } }) { +"Clear completed" }
+                    button({ className = "clear-completed"; onClick = { Todos.deleteAllCompleteTodos() } }) { +"Clear completed" }
                 }
             }
         }
