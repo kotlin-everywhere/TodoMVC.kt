@@ -54,7 +54,9 @@ data class Todos(val list: List<Todo>, val listFilter: TodoListFilter) {
         }
 
         fun setTodoText(todo: Todo, text: String) {
-            setTodo(todo) { copy(text = text) }
+            if (todo.text != text) {
+                setTodo(todo) { copy(text = text) }
+            }
         }
 
 
@@ -72,12 +74,9 @@ enum class TodoListFilter {
     ALL, ACTIVE, COMPLETE
 }
 
-data class Todo(val pk: Int, val text: String, val state: TodoState, val editing: Boolean) {
+data class Todo(val pk: String, val text: String, val state: TodoState, val editing: Boolean) {
     companion object {
-        var sequence = 0;
-            private set
-
-        fun nextSequence() = ++sequence;
+        fun nextSequence() = Date().getTime().toString();
     }
 }
 
